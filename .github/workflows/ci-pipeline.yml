@@ -33,6 +33,12 @@ jobs:
       # Step 4: Run the API tests
       # We don't run UI tests here as they require a browser,
       # which adds a lot of complexity to a basic CI setup.
+      - name: Start Flask App in Background
+        run: |
+          export FLASK_APP=app.py
+          flask run &
+          sleep 5
+
       - name: Run API tests with PyTest
         run: |
           pytest test_app_api.py
