@@ -50,6 +50,12 @@ def delete(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
+@app.cli.command("init-db")
+def init_db():
+    """Clear existing data and create new tables."""
+    db.create_all()
+    print("Initialized the database.")
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

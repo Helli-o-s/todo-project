@@ -37,7 +37,10 @@ jobs:
         run: |
           # Set the Flask environment variables
           export FLASK_APP=app.py
-          
+
+          # Initialize the database cleanly
+          flask init-db
+
           # Start the Flask server in the background (&)
           flask run --host=0.0.0.0 &
           
