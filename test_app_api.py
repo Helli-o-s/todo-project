@@ -47,7 +47,7 @@ def test_update_task_api(client):
     html_content = final_response.data.decode()
     completed_section_match = re.search(
     r'<div class="task-list completed-tasks">.*?<h2>Completed Tasks</h2>(.*?)</div>\s*</div>',
-    final_response.text,
+    html_content.text,
     re.DOTALL,)
     assert completed_section_match and task_title in completed_section_match.group(1)
 
