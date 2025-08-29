@@ -45,8 +45,11 @@ def test_update_task_api(client):
 
     final_response = client.get("/")
     html_content = final_response.data.decode()
-    completed_section_match = re.search(r'<div class="task-list completed-tasks">.*?</div>', html_content, re.DOTALL)
-    assert completed_section_match and task_title in completed_section_match.group(0)
+    completed_section_match = re.search(
+    r'<div class="task-list completed-tasks">.*?<h2>Completed Tasks</h2>(.*?)</div>\s*</div>',
+    final_response.text,
+    re.DOTALL,)
+    assert completed_section_match and task_title in completed_section_match.group(1)
 
 def test_delete_task_api(client):
     """Tests the /delete endpoint."""
