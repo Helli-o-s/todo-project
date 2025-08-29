@@ -13,7 +13,7 @@ jobs:
     # It will run on the latest version of Ubuntu
     runs-on: ubuntu-latest
 
-    steps:
+    steps:  
       # Step 1: Check out the repository code
       - name: Check out code
         uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: 3.11
 
       # Step 3: Install all testing dependencies
       - name: Install dependencies
