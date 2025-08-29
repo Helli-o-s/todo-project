@@ -56,6 +56,13 @@ def init_db():
     db.create_all()
     print("Initialized the database.")
 
+#This function is called by Flask after every request.
+# It ensures the database session is always closed properly,
+# preventing stale data from interfering with the next request.
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.remove()
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
