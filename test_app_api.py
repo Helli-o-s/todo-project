@@ -43,13 +43,16 @@ def test_update_task_api(client):
     update_response = client.get(f"/update/{task_id}", follow_redirects=False)
     assert update_response.status_code == 302
 
+    # --- THE CORRECTED VERIFICATION LOGIC ---
     final_response = client.get("/")
-    html_content = final_response.data.decode()
-    completed_section_match = re.search(
-    r'<div class="task-list completed-tasks">.*?<h2>Completed Tasks</h2>(.*?)</div>\s*</div>',
-    html_content.text,
-    re.DOTALL,)
-    assert completed_section_match and task_title in completed_section_match.group(1)
+    html_content = final_response.data.decode() # Step 1: Decode the response
+
+    # Step 2: Search for the "Completed Tasks" section within the decoded HTML
+    completed_section_match = re.search(r'<div class="task-list completed-tasks">.*?</div>', html_content, re.DOTALL)
+
+    # Step 3: Assert that the section exists and our task title is inside it
+    assert completed_section_match, "The 'Completed Tasks' section was not found in the HTML."
+    assert task_title in completed_section_match.group(0)
 
 def test_delete_task_api(client):
     """Tests the /delete endpoint."""
