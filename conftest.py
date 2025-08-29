@@ -3,7 +3,7 @@
 import pytest
 from app import app as flask_app, db
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def app():
     """Create and configure a new app instance for each test session."""
     # Configure the app for testing
