@@ -1,0 +1,38 @@
+name: CI Test Pipeline
+
+# This workflow runs on every push to the 'main' branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # This job is named 'run-tests'
+  run-tests:
+    # It will run on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python environment
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+
+      # Step 3: Install all testing dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # Step 4: Run the API tests
+      # We don't run UI tests here as they require a browser,
+      # which adds a lot of complexity to a basic CI setup.
+      - name: Run API tests with PyTest
+        run: |
+          pytest test_app_api.py
